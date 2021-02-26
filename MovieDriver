@@ -1,0 +1,132 @@
+package ics_370_iteration3;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+public class MovieDriver {
+	
+	public static void main(String[] args) {
+
+		String username = "root"; 
+		String password = "admin"; //*********enter your password here
+
+		
+/*
+ 		//insert movies************
+		try {
+			Connection myCon = DriverManager.getConnection("jdbc:mysql://localhost:3306/omdb", username , password);
+			String query = "insert into movies (movie_id, native_name, english_name, year_made) values(?,?,?,?)";
+			
+			PreparedStatement ps = myCon.prepareStatement(query);
+		    ps.setInt (1, 2);
+		    ps.setString (2, " ");
+		    ps.setString (3, "Shakuntala");
+		    ps.setInt (4, 1932);
+		      
+		    ps.execute();
+		    ps.close();
+		    myCon.close();
+		    }
+		catch (Exception ex)
+		{
+			ex.printStackTrace();
+		}
+	
+*/
+ 		//select movies************
+		try {
+			Connection myCon = DriverManager.getConnection("jdbc:mysql://localhost:3306/omdb", username , password);
+			java.sql.Statement myStat = myCon.createStatement();
+			
+			ResultSet myRs = myStat.executeQuery("select * from movies");
+			
+			while(myRs.next())
+			{
+				int movie_id = myRs.getInt("movie_id");
+			    String native_name = myRs.getString("native_name");
+			    String english_name = myRs.getString("english_name");
+			    int year_made = myRs.getInt("year_made");
+			    
+			    System.out.format("%s, %s, %s, %s,\n", movie_id, native_name, english_name, year_made);
+			    }
+			myRs.close();
+			}
+		catch (Exception ex)
+		{
+			ex.printStackTrace();
+		}
+
+ 		//select movie_data************
+		try {
+			Connection myCon = DriverManager.getConnection("jdbc:mysql://localhost:3306/omdb", username , password);
+			java.sql.Statement myStat = myCon.createStatement();
+			
+			ResultSet myRs = myStat.executeQuery("select * from movie_data");
+			
+		    System.out.println();
+			while(myRs.next())
+			{
+				String tag_line = myRs.getString("tag_line");
+				int movie_id = myRs.getInt("movie_id");
+			    String language = myRs.getString("language");
+			    String country = myRs.getString("country");
+			    String genre = myRs.getString("genre");
+			    String plot = myRs.getString("plot");
+
+			    System.out.format("%s, %s, %s, %s,\n", tag_line, movie_id, language, country, genre, plot);
+			    }
+			myRs.close();
+			}
+		catch (Exception ex)
+		{
+			ex.printStackTrace();
+		}
+
+ 		//delete movies************
+	    try
+	    {
+			Connection myCon = DriverManager.getConnection("jdbc:mysql://localhost:3306/omdb", username , password);
+			java.sql.Statement myStat = myCon.createStatement();
+			String query = "delete from movies where movie_id = ?";
+			
+			PreparedStatement ps = myCon.prepareStatement(query);
+			ps.setInt(1, 1932);
+			
+		    ps.execute();
+		    ps.close();
+			myCon.close();
+			}
+	    catch (Exception ex)
+	    {
+	    	ex.printStackTrace();	
+	    }
+
+/*
+ 		//update movies************
+	    try
+	    {
+			Connection myCon = DriverManager.getConnection("jdbc:mysql://localhost:3306/omdb", username , password);
+			java.sql.Statement myStat = myCon.createStatement();
+			String query = "update movies set movie_id = ?, native_name = ?, english_name = ?, where year_made = ?";
+			
+			PreparedStatement ps = myCon.prepareStatement(query);
+		    ps.setInt (1, 2);
+		    ps.setString (2, " ");
+		    ps.setString (3, "Shakuntala");
+		    ps.setInt (4, 1932);
+		      
+		    ps.execute();
+		    ps.close();
+		    myCon.close();
+	    }
+	    catch (Exception ex)
+	    {
+	    	ex.printStackTrace();	
+	    }
+	    */
+	}
+}
+
+
